@@ -1,0 +1,41 @@
+I need to pay a lot of attention towards the individual testing of each file like 
+trying to instantiate a class in the constant package should give message 
+and exceptions package is all empty now
+Predictable Hidden Tests (for Intermediate badge):
+
+check for TODO: tasks if any 
+
+
+what could be the reason for having passenger count in the 
+station ? 
+And if cards are expected to belong to passengers then 
+shouldn't we have their userId passengerId in the definition 
+of the card model class ?
+Should the station know which all passengers are present there for 
+the metro 
+I am asking this because considering the cardinality or 
+multiplicity I thought the MetroCard itself 
+serves as the bridging class created owing to the Many to 
+Many relationship between the station and the passengers
+Also if passengers are expected to have a summarry of their 
+bill thing than why don't we have a passenger class in the 
+model package ?
+I have two repository classes now but may one more will be needed 
+State management is done by constants ? 
+Whose observing the state in case Obsever design pattern ITS NOT USED 
+getSummarry should be a command instead of being a station member method ? 
+I think the tests should be more granular instead of having MetroCardTest.java 
+hidden test cases should not be having individual methods/files HOLD UP this can't be 
+
+Low balance (triggers re-charge + fee).
+Return journeys (50% discount).
+Invalid inputs (unknown card/station, malformed types).
+Empty files or large data-sets (~1000 commands).
+Test these in JUnit to pass hidden cases.
+
+
+Design Patterns (for Advanced badge):
+
+Strategy Pattern: Implement getFare with a FareStrategy interface if desired (e.g., AdultFareStrategy, SeniorFareStrategy) for extensibility.
+Service Layer: MetroService centralizes logic, like Spring’s @Service.
+POJO: Card, Station as simple models, like @Entity.
