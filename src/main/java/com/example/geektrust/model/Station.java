@@ -4,7 +4,8 @@ public class Station {
 	private final String name;
 	private int id;
 	private int discount;
-	//TODO: inc or something more relavant ? revenue or collection 
+	//TODO: revenue or collection 
+	//inc or something more relavant ? revenue or collection 
 	private int inc = 0 ;
 	private int revenue;
 	public Station(String name) {
