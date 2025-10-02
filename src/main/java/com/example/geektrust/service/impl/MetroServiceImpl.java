@@ -7,12 +7,14 @@ import com.example.geektrust.constant.MetroConstants;
 import com.example.geektrust.constant.PassengerType;
 import com.example.geektrust.exception.CardNotFoundException;
 import com.example.geektrust.exception.StationNotFoundException;
+import com.example.geektrust.factory.FareStrategyFactory;
 import com.example.geektrust.model.Card;
 import com.example.geektrust.model.Station;
 import com.example.geektrust.model.SummaryDto;
 import com.example.geektrust.repository.CardRepository;
 import com.example.geektrust.repository.StationRepository;
 import com.example.geektrust.service.MetroService;
+import com.example.geektrust.strategy.FareStrategy;
 
 public class MetroServiceImpl implements MetroService{
 	private static MetroServiceImpl metroService;
@@ -42,9 +44,12 @@ public class MetroServiceImpl implements MetroService{
 		if(station == null){
 			throw new StationNotFoundException("This station " + stationName + " does not exist");
 		}
+		FareStrategy strategy = FareStrategyFactory.getStrategy(passengerType);
 		boolean isReturn = !card.getLastStation().isEmpty()	&& !card.getLastStation().equals(stationName);
+		int fullFare = strategy.calculateFare(isReturn);
 		int fare = passengerType.getFare();
-		int discount = isReturn ? (int)(fare*MetroConstants.DISCOUNT_RATE) : 0;
+		int discount = isReturn ? fullFare / 2 : 0;
+		// int discount = isReturn ? (int)(fare*MetroConstants.DISCOUNT_RATE) : 0;
 		fare -= discount;
 		if(discount > 0){
 			station.addDiscount(discount);
@@ -54,11 +59,14 @@ public class MetroServiceImpl implements MetroService{
 			int fee  = (int)(recharge * MetroConstants.SERVICE_FEE);
 			card.addBalance(recharge+fee);
 			station.addRevenue(fee);
+			//TODO: If we will throw a checked excption here will it stop the programme ? 
+			System.out.println("Recharging the metro card " + cardId + " with fee" + fee);
 		}
 		card.deductBalance(fare);
 		card.setLastStation(stationName);
 		station.addRevenue(fare);
 		station.addPassenger(passengerType, 1);
+		station.addDiscount(discount);
 	}
 
 	public void printSummary() {

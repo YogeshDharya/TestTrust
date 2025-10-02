@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.geektrust.constant.PassengerType;
+import com.example.geektrust.model.SummaryDto;
 import com.example.geektrust.model.SummaryDto.PassengerSummary;
 
 public class SummaryBuilder {
@@ -22,18 +23,18 @@ public class SummaryBuilder {
         return this;
     }
 
-    // public SummaryBuilder withPassengerSummary(Map<PassengerType, Integer> passengerCounts) {
-    //     passengerCounts.entrySet().stream()
-    //         .filter(e -> e.getValue() > 0)
-    //         .sorted((e1, e2) -> {
-    //             int countCompare = e2.getValue().compareTo(e1.getValue());
-    //             return countCompare != 0 ? countCompare : e1.getKey().getTypeName().compareTo(e2.getKey().getTypeName());
-    //         })
-    //         .forEach(e -> passengerSummary.add(new PassengerSummary(e.getKey(), e.getValue())));
-    //     return this;
-    // }
+    public SummaryBuilder withPassengerSummary(Map<PassengerType, Integer> passengerCounts) {
+        passengerCounts.entrySet().stream()
+            .filter(e -> e.getValue() > 0)
+            .sorted((e1, e2) -> {
+                int countCompare = e2.getValue().compareTo(e1.getValue());
+                return countCompare != 0 ? countCompare : e1.getKey().getTypeName().compareTo(e2.getKey().getTypeName());
+            })
+            .forEach(e -> passengerSummary.add(new PassengerSummary(e.getKey(), e.getValue())));
+        return this;
+    }
 
-    // public SummaryDTO build() {
-    //     return new SummaryDTO(totalCollection, totalDiscount, passengerSummary);
-    // }
+    public SummaryDto build() {
+        return new SummaryDto(totalCollection, totalDiscount, passengerSummary);
+    }
 }

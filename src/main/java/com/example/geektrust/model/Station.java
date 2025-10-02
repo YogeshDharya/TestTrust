@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.example.geektrust.constant.PassengerType;
+import com.example.geektrust.util.SummaryBuilder;
 
 public class Station {
 	private final String name;
@@ -46,13 +47,11 @@ public class Station {
 	public String getName() {
 		return this.name;
 	}
-	public SummaryDto getSummaryDTO(){
-		List<SummaryDto.PassengerSummary> passengerSummaries = passengerCounts.entrySet()
-		.stream()
-		.filter(entry -> entry.getValue() > 0)  
-		.map(entry -> new SummaryDto.PassengerSummary(entry.getKey(), entry.getValue()))
-		.sorted(Comparator.comparing(ps -> ps.getType().name())) 
-		.collect(Collectors.toList());
-	
-	return new SummaryDto(this.revenue, this.discount, passengerSummaries);	}
+	public SummaryDto getSummaryDTO() {
+		return new SummaryBuilder()
+				.withTotalCollection(this.revenue)
+				.withTotalDiscount(this.discount)
+				.withPassengerSummary(this.passengerCounts)
+				.build();
+	}
 }

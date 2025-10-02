@@ -18,6 +18,9 @@ public enum PassengerType {
         return this.fare;
     }
 
+    public String getTypeName(){
+        return this.typeName;
+    }
     public static PassengerType fromString(String type){
         for(PassengerType pt:values()){
             if(pt.typeName.equalsIgnoreCase(type)){
