@@ -8,3 +8,4 @@ public class KidFareStrategy implements FareStrategy{
     	return isReturn ? MetroConstants.KID_FARE /2 : MetroConstants.KID_FARE;
     }
 }
+

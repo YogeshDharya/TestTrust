@@ -7,7 +7,6 @@ import com.example.geektrust.constant.PassengerType;
 public class SummaryDto {
 	private final int totalCollection;
 	private final int totalDiscount;
-	// TODO: passengerSummaries ? Yellow markings ?
 	private final List<PassengerSummary> passengerSummary;
 
 	public SummaryDto(int totalCollection, int totalDiscount, List<PassengerSummary> passengerSummary) {
@@ -18,8 +17,8 @@ public class SummaryDto {
 
 	public String formatSummary(String stationName) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("TOTAL_COLLECTION ").append(stationName).append(" ").append(totalCollection).append(" ")
-				.append(totalDiscount).append("\n").append("PASSENGER_TYPE_SUMMARY\n");
+		sb.append("TOTAL_COLLECTION ").append(stationName).append(" ").append(this.totalCollection).append(" ")
+				.append(this.totalDiscount).append("\n").append("PASSENGER_TYPE_SUMMARY\n");
 		passengerSummary
 				.forEach(ps -> sb.append(ps.getType()).append(" ").append(ps.getCount()).append("\n"));
 		return sb.toString();

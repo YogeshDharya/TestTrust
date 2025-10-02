@@ -12,7 +12,7 @@ public class CommandFactory {
 		case "BALANCE": return new BalanceCommand();
 		case "CHECK_IN": return new CheckInCommand();
 		case "PRINT_SUMMARY": return new PrintSummaryCommand();
-		default: throw new InvalidCommandException("This Command does not exist");
+		default: throw new InvalidCommandException("This Command " + command + " does not exist");
 		}
 	}
 }

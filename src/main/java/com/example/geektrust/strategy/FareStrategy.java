@@ -7,3 +7,4 @@ public interface FareStrategy {
 //		return isReturn ? fare/2 : 0;
 //	}
 }
+

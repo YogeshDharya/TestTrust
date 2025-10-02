@@ -29,10 +29,11 @@ public class Card {
 	public void setBalance(int balance) {
 		this.balance = balance;
 	}
-//	TODO: should we have addBalance method here or may be at the file that uses for such small
-	// Business logic
 	public void addBalance(int amount) {
 		this.balance += amount;
+	}
+	public void deductBalance(int amount) {
+		this.balance -= amount;
 	}
 		
 	public String getLastStation() {

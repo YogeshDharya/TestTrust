@@ -8,3 +8,4 @@ public class SeniorFareStrategy implements FareStrategy{
 		return isReturn ? MetroConstants.SENIOR_FARE/2 : MetroConstants.SENIOR_FARE;
 	}
 }
+

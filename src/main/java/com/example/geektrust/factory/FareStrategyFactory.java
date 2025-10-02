@@ -13,7 +13,8 @@ public class FareStrategyFactory {
 	 case ADULT: return new AdultFareStrategy();
 	 case SENIOR_CITIZEN: return new SeniorFareStrategy();
 	 case KID: return new KidFareStrategy();
-	 default: throw new InvalidFareStrategyException("This Fare Strategy doesn't exist");
+	 default: throw new InvalidFareStrategyException("No Fare Strategy exists for the passenger type " + type);
 	 }
  }
 }
+

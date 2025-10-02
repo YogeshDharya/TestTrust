@@ -8,3 +8,4 @@ public class PrintSummaryCommand implements Command{
 		service.printSummary();
 	}
 }
+
