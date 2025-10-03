@@ -28,7 +28,8 @@ public class Main {
             while ((line = br.readLine()) != null) {
                 try {
                     String[] parts = line.trim().split("\\s+");
-                    Command command = CommandFactory.createCommand(parts[0], parts);
+                    Command command = CommandFactory.createCommand(parts[0]);
+                    // Command command = CommandFactory.createCommand(parts[0], parts);
                     command.execute(service, parts);
                 } catch (MetroException e) {
                     System.err.println("Error processing command: " + e.getMessage());
