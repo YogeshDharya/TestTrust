@@ -27,7 +27,7 @@ public class Main {
             String line;
             while ((line = br.readLine()) != null) {
                 try {
-                    String[] parts = line.split(" ");
+                    String[] parts = line.trim().split("\\s+");
                     Command command = CommandFactory.createCommand(parts[0], parts);
                     command.execute(service, parts);
                 } catch (MetroException e) {
