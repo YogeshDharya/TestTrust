@@ -2,25 +2,24 @@ package com.example.geektrust.model;
 
 
 public class Card {
-	private int id ;
+	private String id ;
 	private int userId;
-	private int inc = 0 ;
 	//TODO: default balance so no need in the constructor 
 	//TODO: It should be having the user id and not the user name
 	private int balance ;
 	private String lastStation;
-	public Card(int balance, String station) {
-		this.id = inc ++;
+	public Card(String id,int balance, String station) {
+		this.id = id;
 		this.lastStation = station;
 		this.balance = balance;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	public int getUserId() {
 		return userId;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public int getBalance() {

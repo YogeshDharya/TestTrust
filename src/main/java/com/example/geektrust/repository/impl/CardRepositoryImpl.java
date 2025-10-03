@@ -9,7 +9,7 @@ import com.example.geektrust.model.Card;
 import com.example.geektrust.repository.CardRepository;
 
 public class CardRepositoryImpl implements CardRepository {
-	private Map<Integer, Card> cards;
+	private Map<String, Card> cards;
 	private static CardRepositoryImpl instance;
 	private CardRepositoryImpl() {
 		this.cards = new HashMap<>();
@@ -21,7 +21,7 @@ public class CardRepositoryImpl implements CardRepository {
 		return instance;
 	}
 	@Override
-	public Card getCard(int id) {
+	public Card getCard(String id) {
 		return this.cards.get(id);
 	}
 

@@ -31,13 +31,13 @@ public class MetroServiceImpl implements MetroService{
 		return metroService;
 	}
 	@Override
-	public void balance(int cardId, int amount) {
+	public void balance(String cardId, int amount) {
 		this.cardRepository.getCard(cardId).addBalance(amount);
 		
 	}
 
 	@Override
-	public void checkIn(int cardId, PassengerType passengerType, String stationName) {
+	public void checkIn(String cardId, PassengerType passengerType, String stationName) {
 		Card card = this.cardRepository.getCard(cardId);
 		if(card == null) throw new CardNotFoundException("This metro card "+ cardId + " does not exist");
 		Station station = this.stationRepository.getStation(stationName);
