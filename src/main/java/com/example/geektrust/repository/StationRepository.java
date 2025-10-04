@@ -1,12 +1,12 @@
 package com.example.geektrust.repository;
 
-import java.util.List;
-
+import java.util.Map;
 
 import com.example.geektrust.model.Station;
 
 public interface StationRepository {
 	public Station getStation(String name);
-	public List<Station> getAllStations();
+	public Map<String,Station> getAllStations();
+	// public List<Station> getAllStations();
 	public void saveStation(Station card);
 }

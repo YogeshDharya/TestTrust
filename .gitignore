@@ -9,7 +9,7 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
+maven-starter.txt
 # Package Files #
 *.jar
 *.war

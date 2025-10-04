@@ -34,7 +34,11 @@ public class StationRepositoryImpl implements StationRepository{
 		this.stations.put(station.getName(), station);
 	}
 	@Override
-	public List<Station> getAllStations() {
-		return new ArrayList<>(this.stations.values());
+	public Map<String,Station> getAllStations() {
+		return new HashMap<>(this.stations);
 	}
+	// @Override
+	// public List<Station> getAllStations() {
+	// 	return new ArrayList<>(this.stations.values());
+	// }
 }

@@ -1,8 +1,6 @@
 package com.example.geektrust.repository.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.example.geektrust.model.Card;
@@ -31,7 +29,11 @@ public class CardRepositoryImpl implements CardRepository {
 	}
 
 	@Override
-	public List<Card> getCards() {
-		return new ArrayList<>(this.cards.values());
+	public Map<String,Card> getCards() {
+		return new HashMap<>(this.cards);
 	}
+	// @Override
+	// public List<Card> getCards() {
+	// 	return new ArrayList<>(this.cards.values());
+	// }
 }
