@@ -26,26 +26,30 @@ public class MetroServiceImpl implements MetroService{
 	}
 	public static synchronized MetroServiceImpl getInstance(CardRepository cardRepo,StationRepository stationRepo) {
 		if(metroService == null) {
-			return new MetroServiceImpl(cardRepo,stationRepo);
+			metroService = new MetroServiceImpl(cardRepo,stationRepo);
 		}
 		return metroService;
 	}
 	@Override
 	public void balance(String cardId, int amount) {
-		this.cardRepository.getCard(cardId).addBalance(amount);
-		
+		Card card = this.cardRepository.getCard(cardId);
+		if(card == null){
+			card = new Card(cardId);
+			this.cardRepository.addCard(card);
+		}
+		card.addBalance(amount);
 	}
 
 	@Override
 	public void checkIn(String cardId, PassengerType passengerType, String stationName) {
 		Card card = this.cardRepository.getCard(cardId);
-		if(card == null) throw new CardNotFoundException("This metro card "+ cardId + " does not exist");
+		if(card == null) throw new CardNotFoundException("@ MetroServiceImpl.checkIn: This metro card "+ cardId + " does not exist");
 		Station station = this.stationRepository.getStation(stationName);
 		if(station == null){
-			throw new StationNotFoundException("This station " + stationName + " does not exist");
+			throw new StationNotFoundException("@ MetroServiceImpl.checkIn: This station " + stationName + " does not exist");
 		}
 		FareStrategy strategy = FareStrategyFactory.getStrategy(passengerType);
-		boolean isReturn = !card.getLastStation().isEmpty()	&& !card.getLastStation().equals(stationName);
+		boolean isReturn = card.getLastStation() != null && !card.getLastStation().isEmpty()  && !card.getLastStation().equals(stationName);
 		int fullFare = strategy.calculateFare(isReturn);
 		int fare = passengerType.getFare();
 		int discount = isReturn ? fullFare / 2 : 0;
@@ -60,7 +64,7 @@ public class MetroServiceImpl implements MetroService{
 			card.addBalance(recharge+fee);
 			station.addRevenue(fee);
 			//TODO: If we will throw a checked excption here will it stop the programme ? 
-			System.out.println("Recharging the metro card " + cardId + " with fee" + fee);
+			System.out.println("@ MetroServiceImpl.checkIn: Recharging the metro card " + cardId + " with fee" + fee);
 		}
 		card.deductBalance(fare);
 		card.setLastStation(stationName);

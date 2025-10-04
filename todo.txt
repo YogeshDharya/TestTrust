@@ -4,7 +4,9 @@ should we use a single metrocardexception as the root , as the only exception or
 Predictable Hidden Tests (for Intermediate badge):
 
 check for TODO: tasks if any 
-
+./run.sh sample_input/input1.txt
+CommandFactory: Your commented line shows CommandFactory.createCommand(parts[0], parts)—use this instead of createCommand(parts[0]). 
+Some commands (e.g., BalanceCommand) need args for parameters (cardId, amount). The single-arg version may fail hidden tests.
 passengerType enum has two constructors with one being package private
 command invoker is still absent should It be the main class using it or should we have some controller ?
 command I in a separate package even if it would be the only interface in there ?
@@ -15,7 +17,7 @@ has one referring to the station which can be either Airport or the Central Stat
 28th september 2025 19:47isko badla nahi tu 
 We are using int as of now as the unique id of a given model class object
 if we are using command pattern then they should be in sync with our services since they are also expected to have 
-the bussiness logic presently we have balance(), checkIn() and getSummarry() method in the metroservice interface->class itself 
+the business logic presently we have balance(), checkIn() and getSummarry() method in the metroservice interface->class itself 
 Also repository should be present as a 
 I think that it is still possible to create an instance for the metroservice(frog) which has a getInstance() 
 what could be the reason for having passenger count in the 
@@ -53,7 +55,7 @@ Interface: Command with execute(MetroService service).
 Concrete: BalanceCommand, CheckInCommand, PrintSummaryCommand.
 
 
-Factory Pattern (Creational): Creates command objects dynamically based on input, promoting loose coupling.
+Factory Pattern (Creation-al): Creates command objects dynamically based on input, promoting loose coupling.
 
 Class: CommandFactory with createCommand(String commandName, String[] args).
 

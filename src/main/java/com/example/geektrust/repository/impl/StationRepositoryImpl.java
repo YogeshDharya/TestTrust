@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.geektrust.constant.MetroConstants;
 import com.example.geektrust.model.Station;
 import com.example.geektrust.repository.StationRepository;
 
@@ -13,10 +14,14 @@ public class StationRepositoryImpl implements StationRepository{
 	private static StationRepositoryImpl instance;
 	private StationRepositoryImpl() {
 		this.stations = new HashMap<>();
+		Station central = new Station(MetroConstants.CENTRAL);
+		Station airport = new Station(MetroConstants.AIRPORT);
+		this.stations.put(MetroConstants.CENTRAL,central);
+		this.stations.put(MetroConstants.AIRPORT,airport);
 	}
 	public static StationRepositoryImpl getInstance(){
 		if(instance == null){
-			return new StationRepositoryImpl();
+			instance= new StationRepositoryImpl();
 		}
 		return instance; 
 	}

@@ -16,7 +16,7 @@ public class CardRepositoryImpl implements CardRepository {
 	}
 	public static CardRepositoryImpl getInstance(){
 		if(instance == null){
-			return new CardRepositoryImpl();
+			instance = new CardRepositoryImpl();
 		}
 		return instance;
 	}
