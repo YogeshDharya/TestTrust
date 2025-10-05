@@ -16,7 +16,6 @@ import com.example.geektrust.repository.impl.CardRepositoryImpl;
 import com.example.geektrust.repository.impl.StationRepositoryImpl;
 import com.example.geektrust.service.impl.MetroServiceImpl;
 
-
 public class Main {
     public static void main(String[] args) {
 
@@ -24,9 +23,8 @@ public class Main {
         StationRepository stationRepository = StationRepositoryImpl.getInstance();
         Map<String,Card> cardMap = cardRepository.getCards();
         cardMap.clear();
-        System.out.println("Cleared repositories: " + cardMap.size() + " cards ");
         if (args.length < 1) {
-            System.out.println("Input file required");
+            System.out.println("An input file is required");
             return;
         }
         MetroServiceImpl service = MetroServiceImpl.getInstance(cardRepository,stationRepository);
@@ -37,17 +35,14 @@ public class Main {
                     String[] parts = line.trim().split("\\s+");
                     Command command = CommandFactory.createCommand(parts[0]);
                     command.execute(service, parts);
-                    System.out.println("Continuing to the next command: " + String.join(" ", parts));
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.err.println("Invalid command format " + e.getMessage() + " for line: " + line);
-                } catch (MetroException e) {
-                    System.err.println("Error processing command: " + e.getMessage());
+                } catch (MetroException | ArrayIndexOutOfBoundsException e) {
+                    System.err.println("Error processing command " + line + " .Error :" + e.getMessage());
                 } catch (Exception e) {
-                    System.err.println("Error reading file: " + e.getMessage());
+                    System.err.println("An unexpected error occurred: " + e.getMessage());
+                    //TODO: Should I remove the e.getPrintStackTrace() from the last exception block for the inner try-catch ? 
                     e.printStackTrace();
                 }
             }
-            System.out.println("✅ Finished reading all commands from file.");
         } catch (IOException e) {
             System.err.println("❌ Error reading file: " + e.getMessage());
         }
