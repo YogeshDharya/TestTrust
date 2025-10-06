@@ -1,11 +1,6 @@
 package com.example.geektrust.exception;
 
-public class InvalidFareStrategyException extends RuntimeException{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class InvalidFareStrategyException extends MetroException{
 	public InvalidFareStrategyException(String msg) {
 		super(msg);
 	}

@@ -1,10 +1,6 @@
 package com.example.geektrust.exception;
 
-public class CardNotFoundException extends RuntimeException{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CardNotFoundException extends MetroException{
 
 	public CardNotFoundException(String msg) {
 		super(msg);

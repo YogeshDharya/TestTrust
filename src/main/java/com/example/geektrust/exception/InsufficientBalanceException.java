@@ -1,11 +1,6 @@
 package com.example.geektrust.exception;
 
-public class InsufficientBalanceException extends RuntimeException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class InsufficientBalanceException extends MetroException {
 	InsufficientBalanceException(String msg) {
 		super(msg);
 	}
