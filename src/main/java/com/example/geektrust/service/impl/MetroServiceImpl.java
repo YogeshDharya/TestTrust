@@ -32,7 +32,6 @@ public class MetroServiceImpl implements MetroService{
 	}
 	@Override
 	public void balance(String cardId, int amount) {
-		System.out.println("Entered Balance command for cardId "+ cardId + " param amount " + amount);
 		Card card = this.cardRepository.getCard(cardId);
 		if(card == null){
 			card = new Card(cardId);
@@ -43,7 +42,6 @@ public class MetroServiceImpl implements MetroService{
 
 	@Override
 	public void checkIn(String cardId, PassengerType passengerType, String stationName) {
-		System.out.println("Entered check in command for cardId "+ cardId + " passenger type " + passengerType + " station " + stationName);
 		Card card = this.cardRepository.getCard(cardId);
 		if(card == null) throw new CardNotFoundException("@ MetroServiceImpl.checkIn: This metro card "+ cardId + " does not exist");
 		Station station = this.stationRepository.getStation(stationName);
@@ -52,11 +50,9 @@ public class MetroServiceImpl implements MetroService{
 		}
 		FareStrategy strategy = FareStrategyFactory.getStrategy(passengerType);
 		boolean isReturn = card.getLastStation() != null && !card.getLastStation().isEmpty()  && !card.getLastStation().equals(stationName);
-		System.out.println("Chosen strategy "+ strategy + " shall we be returning back 0=false 1=true " +isReturn );
 		int fullFare = strategy.calculateFare(isReturn);
 		int fare = passengerType.getFare();
 		int discount = isReturn ? fullFare / 2 : 0;
-		// int discount = isReturn ? (int)(fare*MetroConstants.DISCOUNT_RATE) : 0;
 		fare -= discount;
 		if(discount > 0){
 			station.addDiscount(discount);
@@ -67,14 +63,12 @@ public class MetroServiceImpl implements MetroService{
 			card.addBalance(recharge+fee);
 			station.addRevenue(fee);
 			//TODO: If we will throw a checked excption here will it stop the programme ? 
-			System.out.println("@ MetroServiceImpl.checkIn: Recharging the metro card " + cardId + " with fee" + fee);
 		}
 		card.deductBalance(fare);
 		card.setLastStation(stationName);
 		station.addRevenue(fare);
 		station.addPassenger(passengerType, 1);
 		station.addDiscount(discount);
-		System.out.println("leaving checkIn cmd for the cardId " + cardId +" passenger " + passengerType + " discount " + discount + " last station " + stationName + " fare " + fare);
 	}
 
 	public void printSummary() {
@@ -84,7 +78,6 @@ public class MetroServiceImpl implements MetroService{
 			   Station station = stationRepository.getStation(stationName);
 			   if (station != null) {
 				   SummaryDto summary = station.getSummaryDTO();
-				   System.out.println(summary.formatSummary(stationName));//This line had .print() n not println() before 
 			   }
 		   }
 	}
