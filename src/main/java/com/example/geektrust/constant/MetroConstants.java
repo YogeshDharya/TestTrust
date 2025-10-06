@@ -1,6 +1,6 @@
 package com.example.geektrust.constant;
 
-public class MetroConstants {//TODO: the name ?
+public class MetroConstants {
 
 	public static final int ADULT_FARE = 200;
     public static final int SENIOR_FARE = 100;

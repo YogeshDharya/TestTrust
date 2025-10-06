@@ -3,7 +3,6 @@ package com.example.geektrust.model;
 
 public class Card {
 	private String id ;
-	//TODO: default balance so no need in the constructor 
 	private int balance ;
 	private String lastStation;
 	public Card(String id){

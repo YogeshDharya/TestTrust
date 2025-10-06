@@ -1,8 +1,6 @@
 package com.example.geektrust.repository.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.example.geektrust.constant.MetroConstants;
@@ -37,8 +35,4 @@ public class StationRepositoryImpl implements StationRepository{
 	public Map<String,Station> getAllStations() {
 		return new HashMap<>(this.stations);
 	}
-	// @Override
-	// public List<Station> getAllStations() {
-	// 	return new ArrayList<>(this.stations.values());
-	// }
 }

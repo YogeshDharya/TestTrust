@@ -1,10 +1,7 @@
 package com.example.geektrust.model;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.example.geektrust.constant.PassengerType;
 import com.example.geektrust.util.SummaryBuilder;

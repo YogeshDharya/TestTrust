@@ -15,21 +15,11 @@ public class SummaryDto {
 		this.totalDiscount = totalDiscount;
 	}
 
-	// public String formatSummary(String stationName) {
-	// 	StringBuilder sb = new StringBuilder();
-	// 	sb.append("TOTAL_COLLECTION ").append(stationName).append(" ").append(this.totalCollection).append(" ")
-	// 			.append(this.totalDiscount).append("\n").append("PASSENGER_TYPE_SUMMARY\n");
-	// 	passengerSummary
-	// 			.forEach(ps -> sb.append(ps.getType()).append(" ").append(ps.getCount()).append("\n"));
-	// 	return sb.toString();
-	// }
-
 	public String formatSummary(String stationName) {
         StringBuilder sb = new StringBuilder();
         sb.append("TOTAL_COLLECTION ").append(stationName).append(" ")
           .append(totalCollection).append(" ").append(totalDiscount).append("\n")
           .append("PASSENGER_TYPE_SUMMARY\n");
-        // Sort by count descending, then type name alphabetically
         passengerSummary.stream()
             .sorted((ps1, ps2) -> {
                 int countCompare = Integer.compare(ps2.getCount(), ps1.getCount());

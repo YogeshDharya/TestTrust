@@ -32,8 +32,4 @@ public class CardRepositoryImpl implements CardRepository {
 	public Map<String,Card> getCards() {
 		return new HashMap<>(this.cards);
 	}
-	// @Override
-	// public List<Card> getCards() {
-	// 	return new ArrayList<>(this.cards.values());
-	// }
 }

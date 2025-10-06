@@ -10,30 +10,33 @@ import com.example.geektrust.exception.StationNotFoundException;
 import com.example.geektrust.factory.FareStrategyFactory;
 import com.example.geektrust.model.Card;
 import com.example.geektrust.model.Station;
-import com.example.geektrust.model.SummaryDto;
 import com.example.geektrust.repository.CardRepository;
 import com.example.geektrust.repository.StationRepository;
 import com.example.geektrust.service.MetroService;
 import com.example.geektrust.strategy.FareStrategy;
 
-public class MetroServiceImpl implements MetroService{
+public class MetroServiceImpl implements MetroService {
 	private static MetroServiceImpl metroService;
 	private final CardRepository cardRepository;
+
 	private final StationRepository stationRepository;
-	private MetroServiceImpl(CardRepository cardRepo,StationRepository stationRepo) {
-		this.cardRepository=cardRepo;
-		this.stationRepository=stationRepo;
+
+	private MetroServiceImpl(CardRepository cardRepo, StationRepository stationRepo) {
+		this.cardRepository = cardRepo;
+		this.stationRepository = stationRepo;
 	}
-	public static synchronized MetroServiceImpl getInstance(CardRepository cardRepo,StationRepository stationRepo) {
-		if(metroService == null) {
-			metroService = new MetroServiceImpl(cardRepo,stationRepo);
+
+	public static synchronized MetroServiceImpl getInstance(CardRepository cardRepo, StationRepository stationRepo) {
+		if (metroService == null) {
+			metroService = new MetroServiceImpl(cardRepo, stationRepo);
 		}
 		return metroService;
 	}
+
 	@Override
 	public void balance(String cardId, int amount) {
 		Card card = this.cardRepository.getCard(cardId);
-		if(card == null){
+		if (card == null) {
 			card = new Card(cardId);
 			this.cardRepository.addCard(card);
 		}
@@ -43,26 +46,29 @@ public class MetroServiceImpl implements MetroService{
 	@Override
 	public void checkIn(String cardId, PassengerType passengerType, String stationName) {
 		Card card = this.cardRepository.getCard(cardId);
-		if(card == null) throw new CardNotFoundException("@ MetroServiceImpl.checkIn: This metro card "+ cardId + " does not exist");
+		if (card == null)
+			throw new CardNotFoundException(
+					"This metro card " + cardId + " does not exist");
 		Station station = this.stationRepository.getStation(stationName);
-		if(station == null){
-			throw new StationNotFoundException("@ MetroServiceImpl.checkIn: This station " + stationName + " does not exist");
+		if (station == null) {
+			throw new StationNotFoundException(
+					"This station " + stationName + " does not exist");
 		}
 		FareStrategy strategy = FareStrategyFactory.getStrategy(passengerType);
-		boolean isReturn = card.getLastStation() != null && !card.getLastStation().isEmpty()  && !card.getLastStation().equals(stationName);
+		boolean isReturn = card.getLastStation() != null && !card.getLastStation().isEmpty()
+				&& !card.getLastStation().equals(stationName);
 		int fullFare = strategy.calculateFare(isReturn);
 		int fare = passengerType.getFare();
 		int discount = isReturn ? fullFare / 2 : 0;
 		fare -= discount;
-		if(discount > 0){
+		if (discount > 0) {
 			station.addDiscount(discount);
 		}
-		if(card.getBalance() < fare){
+		if (card.getBalance() < fare) {
 			int recharge = fare - card.getBalance();
-			int fee  = (int)(recharge * MetroConstants.SERVICE_FEE);
-			card.addBalance(recharge+fee);
+			int fee = (int) (recharge * MetroConstants.SERVICE_FEE);
+			card.addBalance(recharge + fee);
 			station.addRevenue(fee);
-			//TODO: If we will throw a checked excption here will it stop the programme ? 
 		}
 		card.deductBalance(fare);
 		card.setLastStation(stationName);
@@ -72,15 +78,24 @@ public class MetroServiceImpl implements MetroService{
 	}
 
 	public void printSummary() {
-		   List<String> stationNames = Arrays.asList(MetroConstants.CENTRAL, MetroConstants.AIRPORT);
-    
-		   for (String stationName : stationNames) {
-			   Station station = stationRepository.getStation(stationName);
-			   if (station != null) {
-				   SummaryDto summary = station.getSummaryDTO();
-			   }
-		   }
+		List<String> stationNames = Arrays.asList(MetroConstants.CENTRAL, MetroConstants.AIRPORT);
+
+		for (String stationName : stationNames) {
+			Station station = stationRepository.getStation(stationName);
+			if (station != null) {
+				station.getSummaryDTO();
+			}
+		}
+	}
+
+	@Override
+	public CardRepository getCardRepository() {
+		return this.cardRepository;
+	}
+
+	@Override
+	public StationRepository getStationRepository() {
+		return this.stationRepository;
 	}
 
 }
-
