@@ -1,11 +1,11 @@
 package com.example.geektrust.strategy;
 
-import com.example.geektrust.constant.MetroConstants;
+import com.example.geektrust.constant.PassengerType;
 
 public class KidFareStrategy implements FareStrategy{
     @Override
-    public int calculateFare(boolean isReturn) {
-    	return isReturn ? MetroConstants.KID_FARE /2 : MetroConstants.KID_FARE;
+    public int calculateFare() {
+    	return PassengerType.KID.getFare();
     }
 }
 

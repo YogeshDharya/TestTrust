@@ -21,18 +21,26 @@ public class Card {
 	public int getBalance() {
 		return balance;
 	}
-	public void addBalance(int amount) {
+	public void recharge(int amount) {
+		if(amount <= 0){
+			throw new IllegalArgumentException(" The recharge amount " + amount + " is invalid");
+		}
 		this.balance += amount;
 	}
-	public void deductBalance(int amount) {
-		this.balance -= amount;
+	public void payFare(int fare) {
+		if(fare > this.balance){
+			throw new IllegalStateException("Entered fare " + fare + " is greater than the existing balance " + this.balance);
+		}
+		this.balance -= fare;
 	}
 		
 	public String getLastStation() {
 		return lastStation;
 	}
-	public void setLastStation(String lastStation) {
-		this.lastStation = lastStation;
-	}
-	
+	public void markCheckInAt(String stationName) {
+		if(stationName == null || stationName.isEmpty()){
+			throw new IllegalArgumentException(stationName + " is not a valid station name");
+		}
+		this.lastStation = stationName;
+	}	
 }

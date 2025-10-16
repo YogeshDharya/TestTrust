@@ -10,6 +10,7 @@ import com.example.geektrust.exception.StationNotFoundException;
 import com.example.geektrust.factory.FareStrategyFactory;
 import com.example.geektrust.model.Card;
 import com.example.geektrust.model.Station;
+import com.example.geektrust.model.SummaryDto;
 import com.example.geektrust.repository.CardRepository;
 import com.example.geektrust.repository.StationRepository;
 import com.example.geektrust.service.MetroService;
@@ -26,7 +27,8 @@ public class MetroServiceImpl implements MetroService {
 		this.stationRepository = stationRepo;
 	}
 
-	public static synchronized MetroServiceImpl getInstance(CardRepository cardRepo, StationRepository stationRepo) {
+	public static synchronized MetroServiceImpl getInstance(CardRepository cardRepo,
+			StationRepository stationRepo) {
 		if (metroService == null) {
 			metroService = new MetroServiceImpl(cardRepo, stationRepo);
 		}
@@ -40,41 +42,42 @@ public class MetroServiceImpl implements MetroService {
 			card = new Card(cardId);
 			this.cardRepository.addCard(card);
 		}
-		card.addBalance(amount);
+		card.recharge(amount);
 	}
 
 	@Override
 	public void checkIn(String cardId, PassengerType passengerType, String stationName) {
 		Card card = this.cardRepository.getCard(cardId);
 		if (card == null)
-			throw new CardNotFoundException(
-					"This metro card " + cardId + " does not exist");
+			throw new CardNotFoundException("This metro card " + cardId + " does not exist");
 		Station station = this.stationRepository.getStation(stationName);
 		if (station == null) {
-			throw new StationNotFoundException(
-					"This station " + stationName + " does not exist");
+			throw new StationNotFoundException("This station " + stationName + " does not exist");
 		}
 		FareStrategy strategy = FareStrategyFactory.getStrategy(passengerType);
-		boolean isReturn = card.getLastStation() != null && !card.getLastStation().isEmpty()
-				&& !card.getLastStation().equals(stationName);
-		int fullFare = strategy.calculateFare(isReturn);
-		int fare = passengerType.getFare();
-		int discount = isReturn ? fullFare / 2 : 0;
-		fare -= discount;
+		boolean isReturn =
+				card.getLastStation() != null && !card.getLastStation().equals(stationName);
+
+		int baseFare = strategy.calculateFare();
+		int discount = isReturn ? (int) (baseFare * MetroConstants.DISCOUNT_RATE) : 0;
+		int fare = baseFare - discount;
+		if (card.getBalance() < fare) {
+			int recharge = fare - card.getBalance();
+			int fee = (int) Math.ceil((recharge * MetroConstants.SERVICE_FEE));
+			card.recharge(recharge + fee);
+			station.addRevenue(fee);
+		}
+		card.payFare(fare);
+		if (isReturn) {
+			card.markCheckInAt(null);
+		} else {
+			card.markCheckInAt(stationName);
+		}
+		station.addRevenue(fare);
+		station.addPassenger(passengerType, 1);
 		if (discount > 0) {
 			station.addDiscount(discount);
 		}
-		if (card.getBalance() < fare) {
-			int recharge = fare - card.getBalance();
-			int fee = (int) (recharge * MetroConstants.SERVICE_FEE);
-			card.addBalance(recharge + fee);
-			station.addRevenue(fee);
-		}
-		card.deductBalance(fare);
-		card.setLastStation(stationName);
-		station.addRevenue(fare);
-		station.addPassenger(passengerType, 1);
-		station.addDiscount(discount);
 	}
 
 	public void printSummary() {
@@ -83,7 +86,8 @@ public class MetroServiceImpl implements MetroService {
 		for (String stationName : stationNames) {
 			Station station = stationRepository.getStation(stationName);
 			if (station != null) {
-				station.getSummaryDTO();
+				SummaryDto summaryDto = station.getSummaryDTO();
+				System.out.print(summaryDto.formatSummary(stationName));
 			}
 		}
 	}

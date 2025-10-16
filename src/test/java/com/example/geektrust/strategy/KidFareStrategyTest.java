@@ -8,17 +8,10 @@ import com.example.geektrust.constant.MetroConstants;
 
 public class KidFareStrategyTest {
     @Test
-    void testKidFareWithoutReturnJourney(){
+    void testKidFare(){
         KidFareStrategy strategy = new KidFareStrategy();
-        int fare = strategy.calculateFare(false);
+        int fare = strategy.calculateFare();
         assertEquals(MetroConstants.KID_FARE, fare);
     }    
-    
-    @Test 
-    void testKidFareWithReturnJourney(){
-        KidFareStrategy strategy = new KidFareStrategy();
-        int fare = strategy.calculateFare(true);
-        assertEquals(MetroConstants.KID_FARE/2, fare);
-    }
 
 }

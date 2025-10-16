@@ -8,17 +8,9 @@ import com.example.geektrust.constant.MetroConstants;
 
 public class SeniorFareStrategyTest {
     @Test
-    void testSeniorFareWithoutReturnJourney(){
+    void testSeniorFare(){
         SeniorFareStrategy strategy = new SeniorFareStrategy();
-        int fare = strategy.calculateFare(false);
+        int fare = strategy.calculateFare();
         assertEquals(MetroConstants.SENIOR_FARE, fare);
     }    
-    
-    @Test 
-    void testSeniorFareWithReturnJourney(){
-        SeniorFareStrategy strategy = new SeniorFareStrategy();
-        int fare = strategy.calculateFare(true);
-        assertEquals(MetroConstants.SENIOR_FARE/2, fare);
-    }
-    
 }

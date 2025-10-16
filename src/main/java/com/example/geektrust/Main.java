@@ -39,8 +39,6 @@ public class Main {
                     System.err.println("Error processing command " + line + " .Error :" + e.getMessage());
                 } catch (Exception e) {
                     System.err.println("An unexpected error occurred: " + e.getMessage());
-                    //TODO: Should I remove the e.getPrintStackTrace() from the last exception block for the inner try-catch ? 
-                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
