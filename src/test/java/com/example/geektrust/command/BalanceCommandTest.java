@@ -29,7 +29,7 @@ public class BalanceCommandTest {
 
         balanceCommand.execute(metroService, parts);
         assertTrue(metroService.getCardRepository()
-                .getCards().containsKey("MC1"),
+                .getCard("MC1") != null,
                 "Card should be added after balance command");
     }
 

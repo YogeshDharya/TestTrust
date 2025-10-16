@@ -28,8 +28,7 @@ public class CardRepositoryImpl implements CardRepository {
 		this.cards.put(card.getId(), card);
 	}
 
-	@Override
-	public Map<String,Card> getCards() {
-		return new HashMap<>(this.cards);
+	public void clearExistingCards() {
+		this.cards.clear();
 	}
 }
